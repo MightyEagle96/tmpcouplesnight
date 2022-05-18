@@ -1,14 +1,14 @@
 import {
   Avatar,
   Button,
-  TextField,
   Typography,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
   FormControl,
-  InputAdornment,
-  InputLabel,
-  Input,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import "./HomePage.css";
 import logo from "../../assets/images/logo.jpg";
 
@@ -17,8 +17,21 @@ import flyer from "../../assets/images/flyer.jpeg";
 import { red } from "@mui/material/colors";
 import DateCountdown from "../../components/DateCountdown";
 import { AccountCircle, EmailRounded, Phone } from "@mui/icons-material";
+import InputComponent from "../../components/InputComponent";
 
 export default function HomePage() {
+  const defaultData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    comingAlone: "",
+    spouse: "",
+  };
+  const [userData, setUserData] = useState(defaultData);
+
+  const handleChange = (e) =>
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   return (
     <div>
       <div className="homePage d-flex justify-content-center align-items-center">
@@ -49,11 +62,29 @@ export default function HomePage() {
         </div>
       </div>
       <Container>
-        <div className="d-flex justify-content-center p-3">
+        <div className="d-flex justify-content-center p-4">
           <div className="d-none d-md-block">
+            <Typography
+              variant="h6"
+              fontWeight="700"
+              gutterBottom
+              color="GrayText"
+              textAlign={"center"}
+            >
+              COUNTDOWN
+            </Typography>
             <DateCountdown />
           </div>
           <div className="d-sm-block d-md-none">
+            <Typography
+              variant="body1"
+              fontWeight="700"
+              gutterBottom
+              color="GrayText"
+              textAlign={"center"}
+            >
+              COUNTDOWN
+            </Typography>
             <DateCountdown size={80} variant="body1" />
           </div>
         </div>
@@ -68,66 +99,77 @@ export default function HomePage() {
                   </Typography>
                 </div>
                 <div className="mb-3">
-                  <FormControl variant="standard">
-                    <InputLabel htmlFor="input-with-icon-adornment">
-                      First Name
-                    </InputLabel>
-                    <Input
-                      id="input-with-icon-adornment"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <AccountCircle />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
+                  <InputComponent
+                    icon={<AccountCircle />}
+                    label={"First Name"}
+                    name="firstName"
+                    handleChange={handleChange}
+                    value={userData}
+                  />
                 </div>
                 <div className="mb-3">
-                  <FormControl variant="standard">
-                    <InputLabel htmlFor="input-with-icon-adornment">
-                      Last Name
-                    </InputLabel>
-                    <Input
-                      id="input-with-icon-adornment"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <AccountCircle />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
+                  <InputComponent
+                    icon={<AccountCircle />}
+                    label={"Last Name"}
+                    name="lastName"
+                    handleChange={handleChange}
+                    value={userData}
+                  />
                 </div>
                 <div className="mb-3">
-                  <FormControl variant="standard">
-                    <InputLabel htmlFor="input-with-icon-adornment">
-                      Email
-                    </InputLabel>
-                    <Input
-                      id="input-with-icon-adornment"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <EmailRounded />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
+                  <InputComponent
+                    icon={<EmailRounded />}
+                    label={"Email Address"}
+                    name="email"
+                    handleChange={handleChange}
+                    value={userData}
+                  />
                 </div>
                 <div className="mb-3">
-                  <FormControl variant="standard">
-                    <InputLabel htmlFor="input-with-icon-adornment">
-                      Phone
-                    </InputLabel>
-                    <Input
-                      id="input-with-icon-adornment"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Phone />
-                        </InputAdornment>
-                      }
-                    />
+                  <InputComponent
+                    icon={<Phone />}
+                    label={"Phone"}
+                    name="phone"
+                    handleChange={handleChange}
+                    value={userData}
+                  />
+                </div>
+                <div className="mb-3">
+                  <FormControl>
+                    <FormLabel id="demo-radio-buttons-group-label">
+                      Will you be coming with someone?
+                    </FormLabel>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue={false}
+                      name="comingAlone"
+                      onChange={handleChange}
+                      value={userData.comingAlone}
+                    >
+                      <FormControlLabel
+                        value="yes"
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value="no"
+                        control={<Radio />}
+                        label="No"
+                      />
+                    </RadioGroup>
                   </FormControl>
                 </div>
-
+                {userData.comingAlone === "yes" ? (
+                  <div className="mb-3">
+                    <InputComponent
+                      icon={<AccountCircle />}
+                      label={"Spouse"}
+                      name="spouse"
+                      handleChange={handleChange}
+                      value={userData}
+                    />
+                  </div>
+                ) : null}
                 <div className="mb-3">
                   <Button color="error" variant="contained">
                     REGISTER
@@ -149,66 +191,77 @@ export default function HomePage() {
                 </Typography>
               </div>
               <div className="mb-3">
-                <FormControl variant="standard">
-                  <InputLabel htmlFor="input-with-icon-adornment">
-                    First Name
-                  </InputLabel>
-                  <Input
-                    id="input-with-icon-adornment"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
+                <InputComponent
+                  icon={<AccountCircle />}
+                  label={"First Name"}
+                  name="firstName"
+                  handleChange={handleChange}
+                  value={userData}
+                />
               </div>
               <div className="mb-3">
-                <FormControl variant="standard">
-                  <InputLabel htmlFor="input-with-icon-adornment">
-                    Last Name
-                  </InputLabel>
-                  <Input
-                    id="input-with-icon-adornment"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
+                <InputComponent
+                  icon={<AccountCircle />}
+                  label={"Last Name"}
+                  name="lastName"
+                  handleChange={handleChange}
+                  value={userData}
+                />
               </div>
               <div className="mb-3">
-                <FormControl variant="standard">
-                  <InputLabel htmlFor="input-with-icon-adornment">
-                    Email
-                  </InputLabel>
-                  <Input
-                    id="input-with-icon-adornment"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <EmailRounded />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
+                <InputComponent
+                  icon={<EmailRounded />}
+                  label={"Email Address"}
+                  name="email"
+                  handleChange={handleChange}
+                  value={userData}
+                />
               </div>
               <div className="mb-3">
-                <FormControl variant="standard">
-                  <InputLabel htmlFor="input-with-icon-adornment">
-                    Phone
-                  </InputLabel>
-                  <Input
-                    id="input-with-icon-adornment"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <Phone />
-                      </InputAdornment>
-                    }
-                  />
+                <InputComponent
+                  icon={<Phone />}
+                  label={"Phone"}
+                  name="phone"
+                  handleChange={handleChange}
+                  value={userData}
+                />
+              </div>
+              <div className="mb-3">
+                <FormControl>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    Will you be coming with someone?
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue={false}
+                    name="comingAlone"
+                    onChange={handleChange}
+                    value={userData.comingAlone}
+                  >
+                    <FormControlLabel
+                      value="yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="no"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </RadioGroup>
                 </FormControl>
               </div>
-
+              {userData.comingAlone === "yes" ? (
+                <div className="mb-3">
+                  <InputComponent
+                    icon={<AccountCircle />}
+                    label={"Spouse"}
+                    name="spouse"
+                    handleChange={handleChange}
+                    value={userData}
+                  />
+                </div>
+              ) : null}
               <div className="mb-3">
                 <Button color="error" variant="contained">
                   REGISTER
