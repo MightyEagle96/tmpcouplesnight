@@ -6,6 +6,9 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  InputLabel,
+  Select,
+  MenuItem,
   FormControl,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -18,6 +21,10 @@ import { red } from "@mui/material/colors";
 import DateCountdown from "../../components/DateCountdown";
 import { AccountCircle, EmailRounded, Phone } from "@mui/icons-material";
 import InputComponent from "../../components/InputComponent";
+import { titles } from "../../utils/labels";
+import { httpService } from "../../utils/services";
+import Loading from "../../assets/aesthetics/Loading";
+import Swal from "sweetalert2";
 
 export default function HomePage() {
   const defaultData = {
@@ -27,11 +34,39 @@ export default function HomePage() {
     phone: "",
     comingAlone: "",
     spouse: "",
+    title: "",
+    expectation: "",
   };
   const [userData, setUserData] = useState(defaultData);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setUserData({ ...userData, [e.target.name]: e.target.value });
+
+  const Register = async (e) => {
+    e.preventDefault();
+
+    try {
+      Swal.fire({
+        icon: "question",
+        title: "Do you wish to submit",
+        showCancelButton: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+          const path = "register";
+
+          const res = await httpService.post(path, userData);
+          if (res) {
+            setLoading(false);
+            setUserData(defaultData);
+          }
+        }
+      });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <div className="homePage d-flex justify-content-center align-items-center">
@@ -108,6 +143,172 @@ export default function HomePage() {
                     REGISTRATION FORM
                   </Typography>
                 </div>
+                <form onSubmit={Register}>
+                  <Row>
+                    <div className="col-md-6 border-end">
+                      <FormControl
+                        variant="standard"
+                        sx={{ minWidth: 120, marginBottom: 2 }}
+                      >
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Title
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          name="title"
+                          required
+                          value={userData.title}
+                          onChange={handleChange}
+                          label="Age"
+                        >
+                          {titles.map((t, i) => (
+                            <MenuItem key={i} value={t}>
+                              {t}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <div className="mb-3">
+                        <InputComponent
+                          icon={<AccountCircle />}
+                          label={"First Name"}
+                          name="firstName"
+                          handleChange={handleChange}
+                          value={userData}
+                          required={true}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <InputComponent
+                          icon={<AccountCircle />}
+                          label={"Last Name"}
+                          name="lastName"
+                          handleChange={handleChange}
+                          value={userData}
+                          required={true}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <InputComponent
+                          icon={<EmailRounded />}
+                          label={"Email Address"}
+                          name="email"
+                          handleChange={handleChange}
+                          value={userData}
+                          required={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <InputComponent
+                          icon={<Phone />}
+                          label={"Phone"}
+                          name="phone"
+                          handleChange={handleChange}
+                          value={userData}
+                          required={true}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <FormControl>
+                          <FormLabel id="demo-radio-buttons-group-label">
+                            Will you be coming with someone?
+                          </FormLabel>
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue={false}
+                            name="comingAlone"
+                            onChange={handleChange}
+                            value={userData.comingAlone}
+                          >
+                            <FormControlLabel
+                              value="yes"
+                              control={<Radio />}
+                              label="Yes"
+                            />
+                            <FormControlLabel
+                              value="no"
+                              control={<Radio />}
+                              label="No"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </div>
+                      {userData.comingAlone === "yes" ? (
+                        <div className="mb-3">
+                          <InputComponent
+                            icon={<AccountCircle />}
+                            label={"Spouse"}
+                            name="spouse"
+                            handleChange={handleChange}
+                            value={userData}
+                          />
+                        </div>
+                      ) : null}
+                      <div className="mb-3">
+                        <InputComponent
+                          label={"Expectations"}
+                          name="expectation"
+                          handleChange={handleChange}
+                          value={userData}
+                          multiline={true}
+                          rows={2}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <Button
+                          color="error"
+                          variant="contained"
+                          type="submit"
+                          className="me-1"
+                        >
+                          REGISTER
+                        </Button>
+                        <Loading show={loading} color="danger" />
+                      </div>
+                    </div>
+                  </Row>
+                </form>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <img className="img-fluid" src={flyer} alt="img" />
+            </div>
+          </Row>
+        </div>
+        <div className="d-sm-block d-md-none">
+          <div className="d-flex justify-content-center">
+            <div className="mt-3 ">
+              <div className="mb-4">
+                <Typography variant="h5" color={red[500]}>
+                  REGISTRATION FORM
+                </Typography>
+              </div>
+              <form onSubmit={Register}>
+                <FormControl
+                  variant="standard"
+                  sx={{ minWidth: 120, marginBottom: 2 }}
+                >
+                  <InputLabel id="demo-simple-select-standard-label">
+                    Title
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    name="title"
+                    value={userData.title}
+                    onChange={handleChange}
+                    label="Age"
+                  >
+                    {titles.map((t, i) => (
+                      <MenuItem key={i} value={t}>
+                        {t}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <div className="mb-3">
                   <InputComponent
                     icon={<AccountCircle />}
@@ -115,6 +316,7 @@ export default function HomePage() {
                     name="firstName"
                     handleChange={handleChange}
                     value={userData}
+                    required={true}
                   />
                 </div>
                 <div className="mb-3">
@@ -124,6 +326,7 @@ export default function HomePage() {
                     name="lastName"
                     handleChange={handleChange}
                     value={userData}
+                    required={true}
                   />
                 </div>
                 <div className="mb-3">
@@ -133,6 +336,7 @@ export default function HomePage() {
                     name="email"
                     handleChange={handleChange}
                     value={userData}
+                    required={true}
                   />
                 </div>
                 <div className="mb-3">
@@ -142,6 +346,8 @@ export default function HomePage() {
                     name="phone"
                     handleChange={handleChange}
                     value={userData}
+                    v
+                    required={true}
                   />
                 </div>
                 <div className="mb-3">
@@ -181,102 +387,28 @@ export default function HomePage() {
                   </div>
                 ) : null}
                 <div className="mb-3">
-                  <Button color="error" variant="contained">
-                    REGISTER
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <img className="img-fluid" src={flyer} alt="img" />
-            </div>
-          </Row>
-        </div>
-        <div className="d-sm-block d-md-none">
-          <div className="d-flex justify-content-center">
-            <div className="mt-3 ">
-              <div className="mb-4">
-                <Typography variant="h5" color={red[500]}>
-                  REGISTRATION FORM
-                </Typography>
-              </div>
-              <div className="mb-3">
-                <InputComponent
-                  icon={<AccountCircle />}
-                  label={"First Name"}
-                  name="firstName"
-                  handleChange={handleChange}
-                  value={userData}
-                />
-              </div>
-              <div className="mb-3">
-                <InputComponent
-                  icon={<AccountCircle />}
-                  label={"Last Name"}
-                  name="lastName"
-                  handleChange={handleChange}
-                  value={userData}
-                />
-              </div>
-              <div className="mb-3">
-                <InputComponent
-                  icon={<EmailRounded />}
-                  label={"Email Address"}
-                  name="email"
-                  handleChange={handleChange}
-                  value={userData}
-                />
-              </div>
-              <div className="mb-3">
-                <InputComponent
-                  icon={<Phone />}
-                  label={"Phone"}
-                  name="phone"
-                  handleChange={handleChange}
-                  value={userData}
-                />
-              </div>
-              <div className="mb-3">
-                <FormControl>
-                  <FormLabel id="demo-radio-buttons-group-label">
-                    Will you be coming with someone?
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue={false}
-                    name="comingAlone"
-                    onChange={handleChange}
-                    value={userData.comingAlone}
-                  >
-                    <FormControlLabel
-                      value="yes"
-                      control={<Radio />}
-                      label="Yes"
-                    />
-                    <FormControlLabel
-                      value="no"
-                      control={<Radio />}
-                      label="No"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </div>
-              {userData.comingAlone === "yes" ? (
-                <div className="mb-3">
                   <InputComponent
-                    icon={<AccountCircle />}
-                    label={"Spouse"}
-                    name="spouse"
+                    // icon={<Assessment />}
+                    label={"Expectations"}
+                    name="expectation"
                     handleChange={handleChange}
                     value={userData}
+                    multiline={true}
+                    rows={2}
                   />
                 </div>
-              ) : null}
-              <div className="mb-3">
-                <Button color="error" variant="contained">
-                  REGISTER
-                </Button>
-              </div>
+                <div className="mb-3">
+                  <Button
+                    color="error"
+                    variant="contained"
+                    type="submit"
+                    className="me-1"
+                  >
+                    REGISTER
+                  </Button>
+                  <Loading show={loading} color="danger" />
+                </div>
+              </form>
             </div>
           </div>
           <div className="col-md-6">

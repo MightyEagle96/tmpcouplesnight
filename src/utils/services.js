@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 const devUrl = `http://localhost:3090/`;
 
-const prodUrl = "https://dmw-be.herokuapp.com/";
+const prodUrl = "https://couplesnight.herokuapp.com/";
 
 export const backendUrl =
   process.env.REACT_APP_ENV === "production" ? prodUrl : devUrl;
