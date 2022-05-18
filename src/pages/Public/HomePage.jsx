@@ -36,22 +36,32 @@ export default function HomePage() {
     <div>
       <div className="homePage d-flex justify-content-center align-items-center">
         <div>
+          <Typography textAlign={"center"} color="white" gutterBottom>
+            THE MASTER'S PLACE FCT 1
+          </Typography>
           <div className="d-flex justify-content-center">
             <Avatar src={logo} sx={{ width: 100, height: 100 }} />
           </div>
           <div className="d-none d-md-block">
-            <div className="text-center mt-3">
-              <Typography variant="h4" color="white" fontWeight="200">
+            <div className="text-center mt-3 text-white">
+              <Typography>presents</Typography>
+              <Typography variant="h4" fontWeight="200" letterSpacing={2}>
                 Together Forever
               </Typography>
-              <Typography variant="subtitle1" color="white" fontWeight="200">
+              <Typography variant="subtitle1" fontWeight="200">
                 COUPLE'S NIGHT AND DINNER
               </Typography>
             </div>
           </div>
-          <div className="d-sm-block d-md-none">
+          <div className="d-sm-block d-md-none text-white">
             <div className="text-center mt-3">
-              <Typography variant="h4" color="white" fontWeight="200">
+              <Typography variant="caption">presents</Typography>
+              <Typography
+                variant="h4"
+                color="white"
+                fontWeight="200"
+                letterSpacing={2}
+              >
                 Together Forever
               </Typography>
               <Typography variant="subtitle1" color="white" fontWeight="200">
