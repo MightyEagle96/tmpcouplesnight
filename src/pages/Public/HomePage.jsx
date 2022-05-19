@@ -214,7 +214,7 @@ export default function HomePage() {
                       <div className="mb-3">
                         <FormControl>
                           <FormLabel id="demo-radio-buttons-group-label">
-                            Will you be coming with someone?
+                            Will you be coming with your spouse?
                           </FormLabel>
                           <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label"
@@ -240,7 +240,7 @@ export default function HomePage() {
                         <div className="mb-3">
                           <InputComponent
                             icon={<AccountCircle />}
-                            label={"Spouse"}
+                            label={"Spouse name"}
                             name="spouse"
                             handleChange={handleChange}
                             value={userData}
@@ -249,7 +249,7 @@ export default function HomePage() {
                       ) : null}
                       <div className="mb-3">
                         <InputComponent
-                          label={"Expectations"}
+                          label={"Expectations (if any)"}
                           name="expectation"
                           handleChange={handleChange}
                           value={userData}
@@ -279,7 +279,7 @@ export default function HomePage() {
           </Row>
         </div>
         <div className="d-sm-block d-md-none">
-          <div className="d-flex justify-content-center">
+          <div className="p-3">
             <div className="mt-3 ">
               <div className="mb-4">
                 <Typography variant="h5" color={red[500]}>
@@ -353,7 +353,7 @@ export default function HomePage() {
                 <div className="mb-3">
                   <FormControl>
                     <FormLabel id="demo-radio-buttons-group-label">
-                      Will you be coming with someone?
+                      Will you be coming with your spouse?
                     </FormLabel>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
@@ -379,7 +379,7 @@ export default function HomePage() {
                   <div className="mb-3">
                     <InputComponent
                       icon={<AccountCircle />}
-                      label={"Spouse"}
+                      label={"Spouse Name"}
                       name="spouse"
                       handleChange={handleChange}
                       value={userData}
@@ -389,7 +389,7 @@ export default function HomePage() {
                 <div className="mb-3">
                   <InputComponent
                     // icon={<Assessment />}
-                    label={"Expectations"}
+                    label={"Expectations (if any)"}
                     name="expectation"
                     handleChange={handleChange}
                     value={userData}
