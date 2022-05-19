@@ -1,6 +1,6 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import { httpService } from "../../utils/services";
 import DataTable from "react-data-table-component";
 import { ArrowBack } from "@mui/icons-material";
@@ -38,6 +38,27 @@ export default function Attendees() {
     { name: "Email", selector: (row) => row.email },
     { name: "Phone", selector: (row) => row.phone },
   ];
+
+  const ExpandedComponent = ({ data }) => {
+    return (
+      <Alert variant="danger">
+        <Stack direction={"row"} spacing={2}>
+          <div className="border-end p-3">
+            <Typography variant="overline">spouse name</Typography>
+            <Typography variant="h6">
+              {data.spouse ? data.spouse : "-"}
+            </Typography>
+          </div>
+          <div className="p-3">
+            <Typography variant="overline">Expectations</Typography>
+            <Typography variant="h6">
+              {data.expectation ? data.expectation : "-"}
+            </Typography>
+          </div>
+        </Stack>
+      </Alert>
+    );
+  };
   return (
     <div>
       <Container>
@@ -62,6 +83,8 @@ export default function Attendees() {
           <DataTable
             columns={columns}
             data={registered}
+            expandableRows
+            expandableRowsComponent={ExpandedComponent}
             title={`Registered Persons ${registered.length}`}
             pagination
           />
