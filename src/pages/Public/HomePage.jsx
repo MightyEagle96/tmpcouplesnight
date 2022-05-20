@@ -55,7 +55,10 @@ export default function HomePage() {
         if (result.isConfirmed) {
           setLoading(true);
           const path = "register";
-
+          userData.phone = `234${userData.phone.slice(
+            1,
+            userData.phone.length
+          )}`;
           const res = await httpService.post(path, userData);
           if (res) {
             setLoading(false);
